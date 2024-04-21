@@ -29,6 +29,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scrollview import ScrollView
 
 from db import Database
+from CalendarScreen import CalendarScreen
 
 
 class MainScreen(Screen):
@@ -39,22 +40,22 @@ class MainScreen(Screen):
         self.layout.add_widget(Label(text='Main Screen'))
         self.layout.add_widget(Button(text='Patients', on_press=self.patients))
         #self.layout.add_widget(Button(text='Visits', on_press=self.visits))
-        #self.layout.add_widget(Button(text='Calendar', on_press=self.calendar))
+        self.layout.add_widget(Button(text='Calendar', on_press=self.calendar))
         self.layout.add_widget(Button(text='Exit', on_press=self.exit))
 
     def patients(self, instance):
         self.manager.current = 'patients'
 
-    '''
-    def visits(self, instance):
-        self.manager.current = 'visits'
+    # def visits(self, instance):
+    #     self.manager.current = 'visits'
 
     def calendar(self, instance):
         self.manager.current = 'calendar'
-    '''
+
     def exit(self, instance):
         App.get_running_app().stop()
-    
+
+
 class PatientsScreen(Screen):
     def __init__(self, **kwargs):
         super(PatientsScreen, self).__init__(**kwargs)
@@ -76,11 +77,9 @@ class PatientsScreen(Screen):
     def details(self, instance):
         self.manager.current = 'patient_details'
 
-
-
-
     def back(self, instance):
         self.manager.current = 'main'
+
 
 def main():
     # establish connection to database
@@ -99,9 +98,11 @@ def main():
             sm = ScreenManager()
             sm.add_widget(MainScreen(name='main'))
             sm.add_widget(PatientsScreen(name='patients'))
+            sm.add_widget(CalendarScreen(name='calendar'))
             return sm
 
     NurseApp().run()
+
 
 if __name__ == '__main__':
     main()
